@@ -29,13 +29,14 @@ public:
 		
 		Node* prev = head;
 		prev->node_mutex->lock();
-		newnode->node_mutex->unlock();
+		queue_mutex->unlock();
 		
 		int i = 1;
 		while(true){
 			if(i == pos || prev->next == nullptr){
 				newnode->next = prev->next;
 				prev->next = newnode;
+				prev->node_mutex->unlock();
 				newnode->node_mutex->unlock();
 				break;
 			}
